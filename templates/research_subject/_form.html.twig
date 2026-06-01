@@ -25,6 +25,18 @@
         <p id="doi-feedback"></p>
     </div>
 
+    <div class="editor-help">
+        <p>
+            Vous pouvez écrire du contenu riche avec CKEditor.
+            Pour les formules LaTeX, utilisez :
+        </p>
+
+        <ul>
+            <li><code>\( p = \rho c u \)</code> pour une formule en ligne</li>
+            <li><code>\[ ... \]</code> pour une formule en bloc</li>
+        </ul>
+    </div>
+
     {{ form_row(form.content) }}
 
     {{ form_row(form.status) }}

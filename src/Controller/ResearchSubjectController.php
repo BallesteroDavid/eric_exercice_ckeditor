@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/research/subject')]
+#[Route('/admin/research/subject')]
 final class ResearchSubjectController extends AbstractController
 {
     #[Route(name: 'app_research_subject_index', methods: ['GET'])]
@@ -24,18 +24,23 @@ final class ResearchSubjectController extends AbstractController
     }
 
     #[Route('/new', name: 'app_research_subject_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response 
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        ResearchSubjectRepository $researchSubjectRepository
+    ): Response {
         $researchSubject = new ResearchSubject();
 
         $form = $this->createForm(ResearchSubjectType::class, $researchSubject);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $slug = $slugger
-                ->slug($researchSubject->getTitle() ?? '')
-                ->lower()
-                ->toString();
+            $slug = $this->generateUniqueSlug(
+                $researchSubject->getTitle() ?? '',
+                $slugger,
+                $researchSubjectRepository
+            );
 
             $researchSubject->setSlug($slug);
         }
@@ -62,17 +67,23 @@ final class ResearchSubjectController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_research_subject_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, ResearchSubject $researchSubject, EntityManagerInterface $entityManager, SluggerInterface $slugger
-    ): Response 
-    {
+    public function edit(
+        Request $request,
+        ResearchSubject $researchSubject,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        ResearchSubjectRepository $researchSubjectRepository
+    ): Response {
         $form = $this->createForm(ResearchSubjectType::class, $researchSubject);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $slug = $slugger
-                ->slug($researchSubject->getTitle() ?? '')
-                ->lower()
-                ->toString();
+            $slug = $this->generateUniqueSlug(
+                $researchSubject->getTitle() ?? '',
+                $slugger,
+                $researchSubjectRepository,
+                $researchSubject
+            );
 
             $researchSubject->setSlug($slug);
         }
@@ -100,5 +111,44 @@ final class ResearchSubjectController extends AbstractController
         }
 
         return $this->redirectToRoute('app_research_subject_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function generateUniqueSlug(
+        string $title,
+        SluggerInterface $slugger,
+        ResearchSubjectRepository $researchSubjectRepository,
+        ?ResearchSubject $currentResearchSubject = null
+    ): string {
+        $baseSlug = $slugger
+            ->slug($title)
+            ->lower()
+            ->toString();
+
+        if ($baseSlug === '') {
+            $baseSlug = 'research-subject';
+        }
+
+        $slug = $baseSlug;
+        $counter = 2;
+
+        while (true) {
+            $existingResearchSubject = $researchSubjectRepository->findOneBy([
+                'slug' => $slug,
+            ]);
+
+            if ($existingResearchSubject === null) {
+                return $slug;
+            }
+
+            if (
+                $currentResearchSubject !== null
+                && $existingResearchSubject->getId() === $currentResearchSubject->getId()
+            ) {
+                return $slug;
+            }
+
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
     }
 }

@@ -1,0 +1,8 @@
+framework:
+    html_sanitizer:
+        sanitizers:
+            app.research_content_sanitizer:
+                allow_safe_elements: true
+                allow_static_elements: true
+                force_https_urls: true
+                allowed_link_schemes: ['https', 'mailto']

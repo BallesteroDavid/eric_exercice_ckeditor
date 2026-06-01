@@ -20,6 +20,8 @@ class ResearchSubjectType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',
                 'required' => false,
+                'sanitize_html' => true,
+                // 'sanitizer' => 'app.research_content_sanitizer',
                 'attr' => [
                     'rows' => 12,
                     'class' => 'js-ckeditor',

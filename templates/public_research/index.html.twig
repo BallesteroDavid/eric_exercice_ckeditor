@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Research{% endblock %}
+
+{% block body %}
+    <h1>Research</h1>
+
+    {% for research_subject in research_subjects %}
+        <article>
+            <h2>
+                <a href="{{ path('app_public_research_show', {'slug': research_subject.slug}) }}">
+                    {{ research_subject.title }}
+                </a>
+            </h2>
+
+            <p>
+                {{ research_subject.content|striptags|slice(0, 180) }}
+                {% if research_subject.content|striptags|length > 180 %}
+                    ...
+                {% endif %}
+            </p>
+
+            <a href="{{ path('app_public_research_show', {'slug': research_subject.slug}) }}">
+                Read more
+            </a>
+        </article>
+    {% else %}
+        <p>Aucun sujet de recherche publié pour le moment.</p>
+    {% endfor %}
+{% endblock %}

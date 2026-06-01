@@ -34,8 +34,13 @@
                 <td>{{ research_subject.updatedAt ? research_subject.updatedAt|date('d/m/Y H:i') : '' }}</td>
                 <td>{{ research_subject.status }}</td>
                 <td>
-                    <a href="{{ path('app_research_subject_show', {'id': research_subject.id}) }}">Voir</a>
+                    <a href="{{ path('app_research_subject_show', {'id': research_subject.id}) }}">Voir admin</a>
+
                     <a href="{{ path('app_research_subject_edit', {'id': research_subject.id}) }}">Modifier</a>
+
+                    {% if research_subject.status == constant('App\\Entity\\ResearchSubject::STATUS_PUBLISHED') %}
+                        <a href="{{ path('app_public_research_show', {'slug': research_subject.slug}) }}">Voir public</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

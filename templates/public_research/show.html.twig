@@ -11,12 +11,7 @@
         </div>
     </article>
 
-    <hr>
-
-    <a href="{{ path('app_research_subject_index') }}">Retour à la liste</a>
-    <a href="{{ path('app_research_subject_edit', {'id': research_subject.id}) }}">Modifier</a>
-
-    {{ include('research_subject/_delete_form.html.twig') }}
+    <a href="{{ path('app_public_research_index') }}">Retour aux recherches</a>
 {% endblock %}
 
 {% block page_javascripts %}

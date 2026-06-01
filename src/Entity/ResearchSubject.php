@@ -39,7 +39,6 @@ class ResearchSubject
     private ?string $title = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Assert\NotBlank(message: 'Le slug est obligatoire.')]
     #[Assert\Length(
         max: 255,
         maxMessage: 'Le slug ne peut pas dépasser {{ limit }} caractères.'

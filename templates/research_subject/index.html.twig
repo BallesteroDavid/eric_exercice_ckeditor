@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ResearchSubject index{% endblock %}
+{% block title %}Sujets de recherche{% endblock %}
 
 {% block body %}
-    <h1>ResearchSubject index</h1>
+    <h1>Sujets de recherche</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Title</th>
+                <th>Titre</th>
                 <th>Slug</th>
-                <th>Content</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>Status</th>
-                <th>actions</th>
+                <th>Extrait</th>
+                <th>Créé le</th>
+                <th>Modifié le</th>
+                <th>Statut</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,22 +24,27 @@
                 <td>{{ research_subject.id }}</td>
                 <td>{{ research_subject.title }}</td>
                 <td>{{ research_subject.slug }}</td>
-                <td>{{ research_subject.content }}</td>
-                <td>{{ research_subject.createdAt ? research_subject.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ research_subject.updatedAt ? research_subject.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    {{ research_subject.content|striptags|slice(0, 120) }}
+                    {% if research_subject.content|striptags|length > 120 %}
+                        ...
+                    {% endif %}
+                </td>
+                <td>{{ research_subject.createdAt ? research_subject.createdAt|date('d/m/Y H:i') : '' }}</td>
+                <td>{{ research_subject.updatedAt ? research_subject.updatedAt|date('d/m/Y H:i') : '' }}</td>
                 <td>{{ research_subject.status }}</td>
                 <td>
-                    <a href="{{ path('app_research_subject_show', {'id': research_subject.id}) }}">show</a>
-                    <a href="{{ path('app_research_subject_edit', {'id': research_subject.id}) }}">edit</a>
+                    <a href="{{ path('app_research_subject_show', {'id': research_subject.id}) }}">Voir</a>
+                    <a href="{{ path('app_research_subject_edit', {'id': research_subject.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun sujet de recherche trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_research_subject_new') }}">Create new</a>
+    <a href="{{ path('app_research_subject_new') }}">Créer un nouveau sujet</a>
 {% endblock %}

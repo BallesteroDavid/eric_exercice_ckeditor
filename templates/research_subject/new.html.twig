@@ -1,11 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New ResearchSubject{% endblock %}
+{% block title %}Nouveau sujet de recherche{% endblock %}
 
 {% block body %}
-    <h1>Create new ResearchSubject</h1>
+    <h1>Nouveau sujet de recherche</h1>
 
     {{ include('research_subject/_form.html.twig') }}
 
-    <a href="{{ path('app_research_subject_index') }}">back to list</a>
+    <a href="{{ path('app_research_subject_index') }}">Retour à la liste</a>
+{% endblock %}
+
+{% block page_javascripts %}
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script src="{{ asset('assets/js/ckeditor-init.js') }}"></script>
+    <script src="{{ asset('assets/js/doi-fetch.js') }}"></script>
 {% endblock %}

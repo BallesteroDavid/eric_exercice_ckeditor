@@ -1,4 +1,36 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+    {{ form_errors(form) }}
+    {{ form_row(form.title) }}
+
+    <div
+        class="doi-tool"
+        data-doi-fetch-url="{{ path('app_doi_fetch') }}"
+        data-doi-csrf-token="{{ csrf_token('fetch_doi') }}"
+    >
+        <label for="doi-input">Insérer une référence depuis un DOI</label>
+
+        <div>
+            <input
+                type="text"
+                id="doi-input"
+                placeholder="Ex : 10.1121/1.4964639"
+            >
+
+            <button type="button" id="doi-fetch-button">
+                Récupérer et insérer
+            </button>
+        </div>
+
+        <p id="doi-feedback"></p>
+    </div>
+
+    {{ form_row(form.content) }}
+
+    {{ form_row(form.status) }}
+
+    <button class="btn">
+        {{ button_label|default('Save') }}
+    </button>
+
 {{ form_end(form) }}

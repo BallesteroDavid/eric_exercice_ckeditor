@@ -75,10 +75,11 @@ final class ResearchSubjectController extends AbstractController
                 ->toString();
 
             $researchSubject->setSlug($slug);
-            $researchSubject->setUpdatedAt(new \DateTimeImmutable());
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $researchSubject->setUpdatedAt(new \DateTimeImmutable());
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_research_subject_index', [], Response::HTTP_SEE_OTHER);

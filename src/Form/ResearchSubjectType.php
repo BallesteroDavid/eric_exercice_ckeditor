@@ -22,6 +22,7 @@ class ResearchSubjectType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'rows' => 12,
+                    'class' => 'js-ckeditor',
                 ],
             ])
             ->add('status', ChoiceType::class, [

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ResearchSubject index{% endblock %}
+
+{% block body %}
+    <h1>ResearchSubject index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Slug</th>
+                <th>Content</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for research_subject in research_subjects %}
+            <tr>
+                <td>{{ research_subject.id }}</td>
+                <td>{{ research_subject.title }}</td>
+                <td>{{ research_subject.slug }}</td>
+                <td>{{ research_subject.content }}</td>
+                <td>{{ research_subject.createdAt ? research_subject.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ research_subject.updatedAt ? research_subject.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ research_subject.status }}</td>
+                <td>
+                    <a href="{{ path('app_research_subject_show', {'id': research_subject.id}) }}">show</a>
+                    <a href="{{ path('app_research_subject_edit', {'id': research_subject.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_research_subject_new') }}">Create new</a>
+{% endblock %}

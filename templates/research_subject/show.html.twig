@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ResearchSubject{% endblock %}
+
+{% block body %}
+    <h1>ResearchSubject</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ research_subject.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ research_subject.title }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ research_subject.slug }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ research_subject.content }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ research_subject.createdAt ? research_subject.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ research_subject.updatedAt ? research_subject.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ research_subject.status }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_research_subject_index') }}">back to list</a>
+
+    <a href="{{ path('app_research_subject_edit', {'id': research_subject.id}) }}">edit</a>
+
+    {{ include('research_subject/_delete_form.html.twig') }}
+{% endblock %}
